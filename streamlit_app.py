@@ -9,6 +9,12 @@ st.write(
     "This is UBC's Faculty of Medicine's virtual advisor for FLEX 419!"
 )
 
+# footer
+footer_html = """<div style='text-align: center;'>
+  <p>Developed by Charley Cai MSI3 with StreamLit 🩺</p>
+</div>"""
+st.markdown(footer_html, unsafe_allow_html=True)
+
 # Secrets
 openai_api_key = st.secrets["flexAIToken"]
 assistantID = st.secrets["assistantID"]
@@ -78,9 +84,3 @@ else:
         with st.chat_message("assistant"):
             response = st.write_stream(data_streamer)
             st.session_state.messages.append({"role": "assistant", "content": response})
-
-# footer
-footer_html = """<div style='text-align: center;'>
-  <p>Developed by Charley Cai MSI3 with StreamLit 🩺</p>
-</div>"""
-st.markdown(footer_html, unsafe_allow_html=True)
