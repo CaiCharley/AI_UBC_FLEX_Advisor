@@ -1,6 +1,7 @@
 import streamlit as st
 import toml
 from openai import OpenAI
+import time
 
 # Show title and description.
 st.title("UBC AI FLEX Advisor")
@@ -15,6 +16,18 @@ assistantID = st.secrets["assistantID"]
 # Load prompt
 instructions = toml.load("./prompt.toml")["flexPrompt"]
 
+# init streamer
+def data_streamer():
+    """
+    That stream object in ss.stream needs to be examined in detail to come
+    up with this solution. It is still in beta stage and may change in future releases.
+    """
+    for response in st.session_state.stream:
+        if response.event == 'thread.message.delta':
+            value = response.data.delta.content[0].text.value
+            yield value
+            time.sleep(0.2)
+
 if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
 else:
@@ -26,6 +39,8 @@ else:
     # messages persist across reruns.
     if "messages" not in st.session_state:
         st.session_state.messages = []
+    if 'stream' not in st.session_state:
+        st.session_state.stream = None
 
     # Display the existing chat messages via `st.chat_message`.
     for message in st.session_state.messages:
@@ -52,29 +67,17 @@ else:
         )          
 
         # Run the Thread
-        run = client.beta.threads.runs.create_and_poll(
-            thread_id=thread.id,
-            assistant_id = assistantID,
-            instructions = instructions
+        st.session_state.stream = client.beta.threads.runs.create(
+            assistant_id=assistantID,        
+            thread_id= thread.id,
+            stream=True
         )
 
-        if run.status == 'completed': 
-            messageResponse = client.beta.threads.messages.list(
-            thread_id=thread.id
-        )
-            textResponse = messageResponse.data[0].content[0].text.value
-        else:
-            st.write(run.status)
-
-
-        # TODO: Implement streaming
-        
         # Stream the response to the chat using `st.write_stream`, then store it in 
         # session state.
         with st.chat_message("assistant"):
-            # response = st.write_stream(stream)
-            st.markdown(textResponse)
-        st.session_state.messages.append({"role": "assistant", "content": textResponse})
+            response = st.write_stream(data_streamer)
+            st.session_state.messages.append({"role": "assistant", "content": response})
 
 # footer
 footer_html = """<div style='text-align: center;'>
