@@ -1,8 +1,9 @@
-# 💬 Chatbot template
+# 💬 UBC AI Flex Advisor Chatbot
 
-A simple Streamlit app that shows how to build a chatbot using OpenAI's GPT-3.5.
+A simple StreamLit App using OpenAI assistant API.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://chatbot-template.streamlit.app/)
+Developed by Charley Cai 2024
+UBC MD 2026
 
 ### How to run it on your own machine
 
