@@ -2,6 +2,8 @@
 
 A simple StreamLit App using OpenAI assistant API.
 
+You can assess it [Here](https://ubcvirtualflex.streamlit.app/)
+
 Developed by Charley Cai 2024
 UBC MD 2026
 
