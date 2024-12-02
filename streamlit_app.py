@@ -32,7 +32,7 @@ def data_streamer():
         if response.event == 'thread.message.delta':
             value = response.data.delta.content[0].text.value
             yield value
-            time.sleep(0.2)
+            time.sleep(0.1)
 
 if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
