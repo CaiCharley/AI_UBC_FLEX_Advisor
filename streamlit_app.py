@@ -4,9 +4,9 @@ from openai import OpenAI
 import time
 
 # Show title and description.
-st.title("UBC AI FLEX Advisor")
+st.title("Hi! I'm FLEXI")
 st.write(
-    "This is UBC's Faculty of Medicine's virtual advisor for FLEX 419!"
+    "UBC's Faculty of Medicine's virtual advisor for FLEX 419!"
 )
 
 # footer

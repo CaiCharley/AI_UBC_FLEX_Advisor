@@ -1,6 +1,6 @@
-# 💬 UBC AI Flex Advisor Chatbot
+# 💬 FLEXI, UBC's AI Flex Advisor Chatbot
 
-A simple StreamLit App using OpenAI assistant API.
+Flexi is a simple StreamLit App using OpenAI assistant API with retrival augmented generation.
 
 You can assess it [Here](https://ubcvirtualflex.streamlit.app/)
 
