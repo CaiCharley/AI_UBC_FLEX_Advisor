@@ -4,7 +4,7 @@ from openai import OpenAI
 import time
 
 # Show title and description.
-st.title("Hi! I'm FLEXI")
+st.title("Hi, I'm FLEXI! 🤖")
 st.write(
     "UBC's Faculty of Medicine's virtual advisor for FLEX 419!"
 )
