@@ -9,6 +9,9 @@ st.write(
     "UBC's Faculty of Medicine's virtual advisor for FLEX 419!"
 )
 
+url = "https://ubc.ca1.qualtrics.com/jfe/form/SV_bC2vtmOwlIQ1e5g"
+st.write("If you found me helpful (or you found some bugs) let use know [here](%s)." % url)
+
 # footer
 footer_html = """<div style='text-align: center;'>
   <p>Developed by Charley Cai MSI3 with StreamLit 🩺</p>
