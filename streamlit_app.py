@@ -1,6 +1,8 @@
 import streamlit as st
 import toml
+import json
 from openai import OpenAI
+from google.cloud import firestore
 import time
 
 # Show title and description.
@@ -21,6 +23,7 @@ st.markdown(footer_html, unsafe_allow_html=True)
 # Secrets
 openai_api_key = st.secrets["flexAIToken"]
 assistantID = st.secrets["assistantID"]
+db = firestore.Client.from_service_account_info(json.loads(st.secrets["firestore"], strict=False))
 
 # Load prompt
 instructions = toml.load("./prompt.toml")["flexPrompt"]
@@ -47,6 +50,8 @@ else:
     # Create a session state variable to store the chat messages. This ensures that the
     # messages persist across reruns.
     # Also create a persistent thread
+    if "sessionID" not in st.session_state:
+        st.session_state.sessionID = f"{time.time():.0f}"
     if "messages" not in st.session_state:
         st.session_state.messages = []
     if 'stream' not in st.session_state:
@@ -87,3 +92,9 @@ else:
         with st.chat_message("assistant"):
             response = st.write_stream(data_streamer)
             st.session_state.messages.append({"role": "assistant", "content": response})
+
+            # add thread logging
+            db.collection("sessions").document(st.session_state.sessionID).set({
+                "created": time.strftime("%c", time.localtime(int(st.session_state.sessionID))),
+                "thread": st.session_state.messages
+            })
