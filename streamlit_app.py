@@ -3,7 +3,9 @@ import toml
 import json
 from openai import OpenAI
 from google.cloud import firestore
+from datetime import datetime
 import time
+import pytz
 
 # Show title and description.
 st.title("Hi, I'm FLEXI! 🤖")
@@ -26,7 +28,10 @@ assistantID = st.secrets["assistantID"]
 db = firestore.Client.from_service_account_info(json.loads(st.secrets["firestore"], strict=False))
 
 # Load prompt
-instructions = toml.load("./prompt.toml")["flexPrompt"]
+my_instructions = toml.load("./prompt.toml")["flexPrompt"]
+
+# date injection
+my_instructions = f'{my_instructions} \n Today is {datetime.now(tz=pytz.timezone("US/Pacific")).strftime("%B %d %Y")}'
 
 # init streamer
 def data_streamer():
@@ -51,7 +56,7 @@ else:
     # messages persist across reruns.
     # Also create a persistent thread
     if "sessionID" not in st.session_state:
-        st.session_state.sessionID = f"{time.time():.0f}"
+        st.session_state.sessionID = f"{datetime.timestamp(datetime.now()):.0f}"
     if "messages" not in st.session_state:
         st.session_state.messages = []
     if 'stream' not in st.session_state:
@@ -84,6 +89,7 @@ else:
         st.session_state.stream = client.beta.threads.runs.create(
             assistant_id=assistantID,        
             thread_id= st.session_state.thread.id,
+            instructions=my_instructions,
             stream=True
         )
 
