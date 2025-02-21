@@ -16,7 +16,7 @@ st.write(
 )
 
 url = "https://ubc.ca1.qualtrics.com/jfe/form/SV_bC2vtmOwlIQ1e5g"
-st.write("If you found me helpful (or you found some bugs) let use know [here](%s)." % url)
+st.write("If you found me helpful (or you found some bugs) let us know [here](%s)." % url)
 
 # footer
 footer_html = """<div style='text-align: center;'>
