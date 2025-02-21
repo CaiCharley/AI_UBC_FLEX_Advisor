@@ -8,6 +8,8 @@ import time
 import pytz
 
 # Show title and description.
+st.set_page_config(page_title="UBC Flexi 🤖")
+
 st.title("Hi, I'm FLEXI! 🤖")
 st.write(
     "UBC's Faculty of Medicine's virtual advisor for FLEX 419!"
