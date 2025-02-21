@@ -1,5 +1,3 @@
 streamlit
 openai
 google-cloud-firestore
-json
-pytz
